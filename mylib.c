@@ -74,10 +74,43 @@ int Strcmp(char *s1, char *s2){
 	return s1Total > s2Total ? 1 : -1;
 }
 
-char *Tokenize(char *str, char *delimiter) {
-	int size = Strlen(str) - Strlen(delimiter);
-	char *tokens = malloc(size);
-	while(*str != '\0') {
-		
+char **Tokenize(char *str, char *delimiter) {
+	int size = Strlen(str) + 1;
+	char *start = str;
+	int limitSize = 0;
+
+	for (int i = 0; i < size; i++) {
+		if (Strchr(delimiter,*str) != NULL) {
+			limitSize++;
+		}
+		str++;
 	}
+
+	str = start;
+	char **tokens = malloc((limitSize+1)*sizeof(char*));
+	char *buffer = malloc(size);
+
+	*tokens = buffer;
+	char ** tokenStart = tokens;
+	tokens++;
+
+	while (*str != '\0')
+	{
+		if (Strchr(delimiter,*str) != NULL) {
+			*buffer = '\0';
+			buffer++;
+			str++;
+			*tokens = buffer;
+			tokens++;
+			continue;
+		}
+		*buffer = *str;
+		buffer++;
+		str++;
+	}
+	tokens++;
+	tokens = NULL;
+
+	return tokenStart;
+
 }

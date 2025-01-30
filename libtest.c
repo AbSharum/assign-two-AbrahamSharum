@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "mylib.h"
 
+void display(char **tokens);
+
 int main(void){
 	char *string = malloc(20);
 	Strcpy(string,"Hello");
@@ -18,7 +20,19 @@ int main(void){
 
 	free(string);
 
+	char **tokens = Tokenize("this,is.a/test","");
+	display(tokens);
+
 	return 0;
+}
+
+void display(char **tokens) {
+	while (*tokens != NULL)
+	{
+		printf("%s\n",*tokens);
+		tokens++;
+	}
+	
 }
 
 
