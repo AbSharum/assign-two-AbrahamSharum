@@ -53,4 +53,21 @@ Create another program named **libtest.c**, that includes the header file, **myl
 
 ## You cannot include the <string.h> C Standard Library or use any of the functions in this library in your code
 
+---
+
+## Implementation Notes (as cloned)
+
+`mylib.c` / `mylib.h` implement all the required functions from scratch, without `<string.h>`:
+
+- `Strlen`, `Strcpy`, `Strcat`, `Strchr`, `Strcmp` — hand-rolled versions of the standard C string functions. Note: `Strcmp` here compares the *sum of byte values* of the two strings rather than doing a true lexicographic comparison, so it can report equality for anagrams/permutations of the same characters.
+- `Tokenize(char *str, char *delimiter)` — splits `str` on any character found in `delimiter` and returns a `NULL`-terminated array of token strings (`char **`). It allocates one buffer sized to the input string for the token characters plus one pointer array for the token starts, so all tokens live in a single contiguous heap block referenced by individual pointers.
+
+`libtest.c` is the test harness: it exercises `Strcpy`, `Strlen`, `Strcat`, `Strchr`, `Strcmp`, and `Tokenize`, printing results for each, and frees the string buffer it allocated with `malloc`.
+
+There is no Makefile in this repo — build/run via the one-liner in `run.sh`:
+
+```sh
+gcc mylib.c libtest.c -o libtest
+./libtest
+```
 
